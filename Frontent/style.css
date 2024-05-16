@@ -1,0 +1,21 @@
+.chat-display{   
+    background-color: #F5F5F5;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 0 4px 0;
+    color: #3B3C3E;
+    font-size: 12px;
+    font-weight: bold;
+    left: -1px;
+    padding: 10px 15px 55px;
+}
+
+.chat-display{
+    height:70vh;
+    overflow:scroll;
+    overflow-x:hidden;
+}
+
+.chat-message{
+    position: absolute;
+    bottom: 10%;
+}

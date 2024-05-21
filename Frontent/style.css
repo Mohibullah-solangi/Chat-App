@@ -19,3 +19,7 @@
     position: absolute;
     bottom: 10%;
 }
+
+#location-card{
+    bottom: 50%;
+}

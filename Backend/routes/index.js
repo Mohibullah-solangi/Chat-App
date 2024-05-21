@@ -71,6 +71,8 @@ io.on('connection', async (socket) => {
     
         let User = {...user, socketID: socket.id}
         let createdUser = await userController.addUser(User);
+        console.log(createdUser, "User Created")
+        console.log(socket.id);
         io.to(socket.id).emit('newUser', createdUser);
         const users = await userController.getActiveUsers(socket);
 

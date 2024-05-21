@@ -3,11 +3,13 @@ import { addMessage } from "./js/addMessage.js";
 import { leaveChat } from "./js/leaveChat.js";
 import { messageClick } from "./js/messageClicked.js";
 import { deleteMessage } from "./socketFunctions/deleteMessage.js";
-import {updatedUser} from "./socketFunctions/updateUser.js"
+import {updatedUser} from "./socketFunctions/updateUser.js";
+import { createLocation } from "./js/createLocation.js";
+import { checkMessageField } from "./js/checkMessageField.js";
 
 
 // Initialization
-const socket = io("127.0.0.1:4000");
+const socket = io("http://127.0.0.1:4000");
 var LoginUser = JSON.parse(window.localStorage.getItem("User"));
 
 // Already Exist User
@@ -152,8 +154,15 @@ for (let index = 0; index < dateMap.size; index++) {
                     let li = document.createElement("li");
                     li.classList.add("list-group-item", "me-3","mt-2", "border", "rounded-4", "bg-light-subtle");
                     li.style.width = "fit-content";
-                   
-                     li.innerHTML =  message.message;
+                   if(message.message.includes("https://www.google.com/maps")){
+                    li.innerHTML =  document.getElementById(
+                        "location-card"
+                      ).innerHTML
+                   }
+                   else{
+                    li.innerHTML =  message.message;
+                   }
+                     
                 
                      console.log(message.messageBy, "Iniial Messages Loading")
                     //  Adding Message Name 
@@ -200,12 +209,7 @@ socket.on("roomJoined",(msg)=>{
         })
 
 
-// User Added 
-socket.on("newUser", (user)=>{
-    let User = {id: user.id, firstName: user.firstName, email: user.email, socketID: user.socketID }
-    window.localStorage.setItem("User", JSON.stringify(User));
-    LoginUser = User;
-})
+
 
 
 
@@ -225,7 +229,7 @@ document.querySelector('.chat-join').addEventListener('submit', function(event) 
 document.querySelector('.chat-message').addEventListener('submit', function(event) {
    
     // Calling addMessage function import from js folder
-    addMessage(event); 
+    addMessage(event, LoginUser); 
 });
 
 
@@ -236,13 +240,23 @@ document.querySelector('.chat-display').addEventListener('click', function(event
 });
 
 
-document.querySelector('.dropdown-item').addEventListener('click', function() {
+document.querySelector('#leaveChat').addEventListener('click', function() {
    
     // Calling leaveChat function import from js folder
     leaveChat(); 
 });
 
+document.querySelector('.fa-location-dot').addEventListener('click', function() {
+   
+    // Calling leaveChat function import from js folder
+    createLocation(); 
+});
 
 
-
-
+document.querySelector('#message').addEventListener('keyup', function(event) {
+   
+    // Calling leaveChat function import from js folder
+    checkMessageField(event); 
+});
+  
+document.getElementById("options-header")

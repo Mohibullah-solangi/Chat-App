@@ -1,4 +1,4 @@
-const socket = io("127.0.0.1:4000");
+const socket = io("http://127.0.0.1:4000");
 var Users = [];
 var LoginUser = JSON.parse(window.localStorage.getItem("User"));
 
@@ -40,6 +40,7 @@ export function addUser(e){
     document.getElementById('Send').removeAttribute('disabled');
     document.querySelector(".chat-join").reset();
     socket.emit('Chat', User);
+    console.log(socket.id)
     console.log('Form submitted successfully');
 } else {
     // Form is invalid, do something (e.g., display error messages)
@@ -47,3 +48,14 @@ export function addUser(e){
 }
    
 }
+
+
+
+
+// User Added 
+socket.on("newUser", (user)=>{
+    let User = {id: user.id, firstName: user.firstName, email: user.email, socketID: user.socketID };
+    console.log(User, "User Added to the chat")
+    window.localStorage.setItem("User", JSON.stringify(User));
+    LoginUser = User;
+})

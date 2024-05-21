@@ -5,7 +5,12 @@ const cors = require("cors");
 const http = require('http');
 // const server = http.createServer(app);
 // const { Server } = require("socket.io");
-app.use(cors());
+// Allow requests from http://192.168.15.103:5500
+const corsOptions = {
+  origin: 'http://127.0.0.1:5500',
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 const io = require('./routes/index');
 
 
